@@ -6,8 +6,12 @@ import json, sys, base64, hashlib, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 P = lambda *a: os.path.join(ROOT, *a)
 VERSION = sys.argv[1] if len(sys.argv) > 1 else '6.0'
-SITE = 'https://danielsharon1.github.io/new-website/'
-APK = 'https://github.com/danielsharon1/new-website/releases/latest/download/lomedet.apk'
+REPO = os.environ.get('GITHUB_REPOSITORY', 'danielsharon1/new-website')
+OWNER, NAME = REPO.split('/')
+SITE = f'https://{OWNER}.github.io/{NAME}/'
+APK = f'https://github.com/{REPO}/releases/latest/download/lomedet.apk'
+# all addresses the app has lived at, so installed apps keep finding updates after a rename
+SITES = list(dict.fromkeys([SITE, f'https://{OWNER}.github.io/lomedet/', f'https://{OWNER}.github.io/new-website/']))
 NATIVE_MIN = open(P('tools', 'native_min.txt')).read().strip()
 
 errors = []
@@ -51,7 +55,7 @@ if errors:
 rd = lambda *a: open(P(*a), encoding='utf8').read()
 avatar = base64.b64encode(open(P('src', 'avatar.jpg'), 'rb').read()).decode()
 js = (rd('src', 'app.js').replace('__DATA__', json.dumps(data, ensure_ascii=False))
-      .replace('__AVATAR__', avatar).replace('__VERSION__', VERSION).replace('__SITE__', SITE))
+      .replace('__AVATAR__', avatar).replace('__VERSION__', VERSION).replace('"__SITE__"', json.dumps(SITES)))
 js += """
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});

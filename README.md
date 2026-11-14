@@ -2,8 +2,8 @@
 
 אפליקציית תרגול למבחנים – שאלונים (כולל נכון/לא נכון), כרטיסיות, סימולציית מבחן עם טיימר, התקדמות ונקודות חולשה, תזכורת יומית וגיבוי.
 
-- **אנדרואיד:** [הורדת האפליקציה (APK)](https://github.com/danielsharon1/new-website/releases/latest/download/lomedet.apk)
-- **אייפון / מחשב:** https://danielsharon1.github.io/new-website/ (באייפון: שיתוף ← "הוסף למסך הבית")
+- **אנדרואיד:** [הורדת האפליקציה (APK)](https://github.com/danielsharon1/lomedet/releases/latest/download/lomedet.apk)
+- **אייפון / מחשב:** https://danielsharon1.github.io/lomedet/ (באייפון: שיתוף ← "הוסף למסך הבית")
 
 ## איך מעדכנים – וכולם מקבלים את העדכון
 

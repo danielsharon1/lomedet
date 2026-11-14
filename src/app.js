@@ -1,7 +1,7 @@
 const DATA = __DATA__;
 const AVATAR = "data:image/jpeg;base64,__AVATAR__";
 const VERSION = "__VERSION__";
-const SITE = "__SITE__";
+const SITES = "__SITE__";
 const BASE_COURSES = DATA.courses.map(c=>({id:c.id,name:c.name,em:c.emoji,d:c.desc}));
 const TOPICS = Object.fromEntries(DATA.courses.map(c=>[c.id,(c.topics||[]).map(t=>({n:t.name,s:t.lessons||''}))]));
 const LV = {1:'קל',2:'בינוני',3:'קשה'};
@@ -667,7 +667,9 @@ function verNum(v){return String(v).split('.').map(Number).reduce((a,n)=>a*10000
 async function checkOTA(){
   if(!NATIVE||!navigator.onLine)return;
   try{
-    const r=await fetch(SITE+'version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const info=await r.json();
+    let info=null,SITE=null;
+    for(const s of SITES){try{const r=await fetch(s+'version.json?t='+Date.now(),{cache:'no-store'});if(r.ok){info=await r.json();SITE=s;break}}catch(e){}}
+    if(!info)return;
     if(verNum(info.version)<=verNum(VERSION))return;
     const shell=NP.App&&NP.App.getInfo?(await NP.App.getInfo()).version:'0';
     if(info.native_min&&verNum(info.native_min)>verNum(shell)){toast('📲 יש גרסה חדשה של האפליקציה – <a href="'+info.apk+'">להורדה</a>',9000);return}
