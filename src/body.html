@@ -1,0 +1,164 @@
+<div id="welcome">
+  <div class="wmain">
+    <img class="wav" id="wAvatar" alt="">
+    <h1 id="wName">היי מאיה 👋</h1>
+    <p>ברוכה הבאה לתוכנת הלמידה שלך</p>
+    <button class="btn primary" onclick="enterApp()">יאללה, מתחילים ▸</button>
+  </div>
+  <div class="quote"><small>המשפט של היום</small><span id="wQuote"></span></div>
+</div>
+<div id="app">
+
+<section class="screen on" id="s-home">
+  <div class="top">
+    <button class="iconbtn" id="setBtn" onclick="go('settings')" aria-label="הגדרות">⚙️</button>
+    <button class="iconbtn" id="boardBtn" onclick="openBoard()" aria-label="טבלת ניקוד">🏆</button>
+  </div>
+  <div class="hero">
+    <h1 id="heroName">היי מאיה ✨</h1>
+    <p>באיזה תחום תרצי להשתפר היום?</p>
+    <div class="hinfo" id="heroInfo"></div>
+  </div>
+  <div class="seg modeseg" id="modeSeg"><button data-m="quiz" onclick="setMode('quiz')">📝 שאלון</button><button data-m="cards" onclick="setMode('cards')">🃏 כרטיסיות</button></div>
+  <div class="label">בחרי קורס</div>
+  <div class="courses" id="courses"></div>
+  <div id="lvlBlock"><div class="label">רמת קושי</div>
+  <div class="seg" id="lvlHome"></div>
+  <div class="lvdesc" id="lvdesc"></div></div>
+  <div class="resume" id="resumeBox" style="display:none"><b>⏸ יש מבחן שלא סיימת</b><span id="resumeTxt"></span><div class="row"><button class="btn ghost" onclick="discardProgress()">מחיקה</button><button class="btn dark" onclick="resumeQuiz()">המשך ▸</button></div></div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="startBtn" onclick="startMain()">התחילי מבחן ▸</button>
+</section>
+
+<section class="screen" id="s-quiz">
+  <div class="qhead">
+    <button class="iconbtn" onclick="quitQuiz()" aria-label="יציאה">✕</button>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="count" id="count">1/15</div>
+  </div>
+  <div class="chips"><span class="chip" id="chipCourse"></span><span class="chip" id="chipLvl"></span><span class="chip ok" id="chipOk">✓ 0</span><span class="chip bad" id="chipBad">✗ 0</span></div>
+  <div class="qcard"><p id="qtext"></p></div>
+  <button class="replink" onclick="openReport()">⚑ יש טעות בשאלה?</button>
+  <div class="fb" id="fb"></div>
+  <div class="opts" id="opts"></div>
+  <button class="btn dark next" id="nextBtn" onclick="nextQ()">לשאלה הבאה ←</button>
+  <div class="simnav" id="simNav" style="display:none"><button class="btn ghost" id="simPrev" onclick="simMove(-1)">→ הקודמת</button><button class="btn ghost" id="simSubmit" onclick="submitSim()">הגשה ✓</button><button class="btn dark" id="simNext" onclick="simMove(1)">הבאה ←</button></div>
+</section>
+
+<section class="screen" id="s-result">
+  <h2 style="text-align:center;margin-top:6px" id="rTitle">סיימת! 🎉</h2>
+  <div class="ring">
+    <svg width="170" height="170"><circle cx="85" cy="85" r="74" fill="none" stroke="#e7e0d2" stroke-width="14"/><circle id="ringc" cx="85" cy="85" r="74" fill="none" stroke="#2e9e6a" stroke-width="14" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465" style="transition:stroke-dashoffset 1s ease"/></svg>
+    <div class="num"><div><b id="rScore">0</b><span id="rOf">מתוך 15</span></div></div>
+  </div>
+  <p class="msg" id="rMsg"></p>
+  <p class="grade" id="rGrade"></p>
+  <div class="stats">
+    <div class="stat ok"><b id="rOk">0</b><small>צדקת</small></div>
+    <div class="stat bad"><b id="rBad">0</b><small>טעית</small></div>
+    <div class="stat"><b id="rPts">0</b><small>נקודות</small></div>
+  </div>
+  <p class="saved" id="rSaved"></p>
+  <button class="btn dark" onclick="openHist(Q.rec.id)" style="margin-bottom:10px">📋 לכל השאלות והתשובות של המבחן</button>
+  <div class="spacer"></div>
+  <div class="row">
+    <button class="btn ghost" onclick="go('home')">מסך הבית</button>
+    <button class="btn primary" onclick="newQuizSameMode()">מבחן חדש</button>
+  </div>
+</section>
+
+<section class="screen" id="s-board">
+  <div class="top"><h2 style="margin:0">טבלת ניקוד 🏆</h2><button class="iconbtn" onclick="go('home')">✕</button></div>
+  <div class="tabs" id="bTabs"></div>
+  <div class="sortrow" id="lvF"><button data-l="0" onclick="setLvlF(0)">כל הרמות</button><button data-l="1" onclick="setLvlF(1)">קל</button><button data-l="2" onclick="setLvlF(2)">בינוני</button><button data-l="3" onclick="setLvlF(3)">קשה</button><button data-l="4" onclick="setLvlF(4)">⏱ סימולציות</button></div>
+  <div class="sortrow"><button id="sortPts" onclick="setSort('pts')">לפי ציון</button><button id="sortDate" onclick="setSort('date')">לפי תאריך</button><span class="bcount" id="bCount"></span></div>
+  <div class="lb" id="lb"></div>
+  <p class="note">כל המבחנים נשמרים בטלפון – גם אחרי שסוגרים ופותחים את האפליקציה. 🗑 מוחק מבחן שכבר לא רלוונטי.<br>לחצי על מבחן כדי לראות את כל השאלות, מה ענית ואיפה טעית.<br>ניקוד: כל תשובה נכונה בניסיון הראשון שווה 10 נק' ברמה קלה, 15 בבינונית ו-20 בקשה.</p>
+</section>
+
+<section class="screen" id="s-hist">
+  <div class="top"><h2 style="margin:0">המבחן המלא 📋</h2><button class="iconbtn" onclick="openBoard()">✕</button></div>
+  <div id="hHead"></div>
+  <div class="sortrow"><button id="hAll" class="sel" onclick="histFilter(false)">כל השאלות</button><button id="hOnlyBad" onclick="histFilter(true)">רק טעויות</button></div>
+  <div id="hList"></div>
+  <div class="row" style="margin-top:6px"><button class="btn ghost" onclick="openBoard()">חזרה לטבלה</button><button class="btn ghost" id="hDel" style="color:var(--bad)">🗑 מחיקת המבחן</button></div>
+</section>
+
+<section class="screen" id="s-stats">
+  <div class="top"><h2 style="margin:0">איפה אני חלשה? 📊</h2><button class="iconbtn" onclick="go('home')">✕</button></div>
+  <div class="tabs" id="stTabs"></div>
+  <div id="stReady"></div>
+  <div class="stats" id="stTiles"></div>
+  <div id="stCall"></div>
+  <div id="stMist" style="margin:10px 0"></div>
+  <div class="label">הצלחה לפי נושא – החלש ביותר למעלה</div>
+  <div class="tbars" id="stBars"></div>
+  <p class="note">לחיצה על נושא פותחת תרגול ממוקד רק עליו (קודם השאלות שטעית בהן). ירוק = 80% ומעלה · כתום = 55–79% · אדום = מתחת ל-55%.</p>
+  <div id="stTrend"></div>
+</section>
+
+<section class="screen" id="s-cards">
+  <div class="top"><h2 style="margin:0">כרטיסיות לשינון 🃏</h2><button class="iconbtn" onclick="go('home')">✕</button></div>
+  <div class="tabs" id="cTopics"></div>
+  <div class="cprog" id="cProg"></div>
+  <div id="cardWrap"><div class="card" id="card" onclick="flipCard()"><div class="face front" id="cFront"></div><div class="face back" id="cBack"></div></div></div>
+  <div class="cbtns" id="cBtns"></div>
+  <p class="note">כרטיסיות שסימנת "עוד לא" חוזרות בסוף החפיסה. שאלות שטעית בהן במבחנים מופיעות ראשונות.</p>
+</section>
+
+<section class="screen" id="s-settings">
+  <div class="top"><h2 style="margin:0">הגדרות ⚙️</h2><button class="iconbtn" onclick="go('home')">✕</button></div>
+
+  <div class="section">
+    <h3>📚 הוספת חומר לימוד חדש</h3>
+    <p class="note" id="upNote">מעלים קובץ (PDF, Word או טקסט) – והאפליקציה הופכת אותו לשאלות. אם הנושא כבר קיים, השאלות נוספות לקורס; אם לא – נפתח קורס חדש.</p>
+    <label class="filebtn">⬆️ העלאת קבצים<input type="file" multiple accept=".pdf,.docx,.txt,.md,application/pdf,text/plain,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="uploadMaterial(this)"></label>
+    <div class="upstatus" id="upStatus"></div>
+    <div id="cuList"></div>
+  </div>
+
+  <div class="label">מראה</div>
+  <div class="seg" id="themeSeg" style="margin-bottom:10px"><button data-t="auto" onclick="setTheme('auto')">אוטומטי</button><button data-t="light" onclick="setTheme('light')">☀️ בהיר</button><button data-t="dark" onclick="setTheme('dark')">🌙 כהה</button></div>
+  <div class="section" id="remindBox" style="display:none">
+    <div class="setrow" style="box-shadow:none;padding:4px 0;margin:0"><span>⏰ תזכורת יומית ללמידה</span><button class="sw" id="swRemind" onclick="setReminder(!S.remind,$('remindAt').value)"></button></div>
+    <label class="exrow"><span>שעת התזכורת</span><input type="time" id="remindAt" value="19:00" onchange="if(S.remind)setReminder(true,this.value);else{S.remindAt=this.value;persist()}"></label>
+  </div>
+  <div class="setrow"><span>מוזיקת רקע 🎵</span><button class="sw" id="swMusic" onclick="toggleMusic(event)"></button></div>
+  <div class="setrow"><span>צלילים 🔊</span><button class="sw" id="swSound" onclick="toggle('sound')"></button></div>
+  <div class="setrow"><span>רטט 📳</span><button class="sw" id="swVib" onclick="toggle('vib')"></button></div>
+  <div class="section" style="margin-top:12px">
+    <h3>📅 תאריכי המבחנים</h3>
+    <p class="note">הכניסי תאריך – ובמסך הבית תופיע ספירה לאחור.</p>
+    <div id="examDates"></div>
+  </div>
+  <div class="section">
+    <h3>📦 גיבוי ושחזור</h3>
+    <p class="note">שומרים את כל המבחנים וההיסטוריה כקובץ בטלפון. בטלפון חדש לוחצים "שחזור" ובוחרים את הקובץ – וזהו.</p>
+    <div class="row"><button class="smallbtn" onclick="makeBackup()">📦 גיבוי עכשיו</button><label class="smallbtn" style="text-align:center">♻️ שחזור<input type="file" accept=".json,application/json" style="display:none" onchange="restoreBackup(this)"></label></div>
+    <p class="note" id="bkLast"></p><p class="note" id="bkMsg"></p>
+  </div>
+  <div class="section">
+    <h3>⚑ דיווחים על שאלות</h3>
+    <p class="note"><span id="repCount"></span>. שאלות שדווחו לא מופיעות במבחנים. שלחי את הדיווחים לאחיך – כך השאלות ישתפרו בגרסה הבאה.</p>
+    <button class="smallbtn" id="repCopy" onclick="copyReports()">📋 העתקת הדיווחים לשליחה</button>
+    <p class="note" id="repCopyMsg"></p>
+    <textarea id="repText" style="display:none" rows="6"></textarea>
+    <div id="repList"></div>
+  </div>
+  <div class="label" style="margin-top:14px">השם שלך</div>
+  <input type="text" id="nameSet" placeholder="השם שלך" maxlength="20" oninput="S.name=this.value;persist();setNames()">
+  <button class="btn ghost" onclick="startTour()" style="margin-top:8px">🧭 הצגת ההדרכה מחדש</button>
+  <button class="btn ghost" onclick="resetBoard()" style="color:var(--bad);margin-top:8px">איפוס טבלת הניקוד וההיסטוריה</button>
+  <a class="btn ghost" id="getApp" href="__APKURL__" style="display:block;text-align:center;text-decoration:none;margin-top:8px">🤖 הורדת האפליקציה לאנדרואיד (APK)</a>
+  <p class="note" id="installNote">__INSTALLNOTE__</p>
+  <p class="note" style="text-align:center" id="verLbl"></p>
+</section>
+</div>
+<button id="musicBtn" onclick="toggleMusic(event)" aria-label="מוזיקת רקע"><span>🎵</span><span class="eq"><i></i><i></i><i></i></span></button>
+<div id="tour"><div id="tSpot"></div><div id="tTip"><b id="tTitle"></b><p id="tText"></p><div class="tfoot"><button id="tPrev" onclick="tourPrev()">→ הקודם</button><span id="tDots"></span><button id="tNext" class="tnext" onclick="tourNext()">הבא ←</button></div><button class="tskip" onclick="endTour()">דלגי על ההדרכה</button></div></div>
+<div id="report"><div class="mbox"><h3 style="margin:0 0 6px">⚑ יש טעות בשאלה?</h3><p class="rq" id="repQ"></p>
+<div class="chipsel" id="repReasons"><button onclick="repReason(this)">התשובה הנכונה שגויה</button><button onclick="repReason(this)">השאלה לא ברורה</button><button onclick="repReason(this)">ההסבר לא מדויק</button><button onclick="repReason(this)">לא מהחומר שלי</button><button onclick="repReason(this)">אחר</button></div>
+<textarea id="repNote" rows="3" placeholder="מה לא בסדר? (לא חובה)"></textarea>
+<div class="row"><button class="btn ghost" onclick="$('report').classList.remove('on')">ביטול</button><button class="btn dark" onclick="sendReport()">שליחה</button></div></div></div>
+<div id="toast"></div>
+<div id="modal"><div class="mbox"><p id="mText"></p><div class="row"><button class="btn ghost" id="mNo">ביטול</button><button class="btn dark" id="mYes"></button></div></div></div>

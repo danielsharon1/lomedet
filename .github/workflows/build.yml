@@ -21,6 +21,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+      - name: Build app from questions/ and src/
+        run: python3 tools/build.py 6.${{ github.run_number }}
       - name: Install
         run: npm install --no-audit --no-fund
       - name: Create Android project
@@ -30,7 +32,7 @@ jobs:
       - name: Portrait, version
         run: |
           sed -i 's/android:name=".MainActivity"/android:name=".MainActivity" android:screenOrientation="portrait"/' android/app/src/main/AndroidManifest.xml
-          sed -i "s/versionCode [0-9]*/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"5.${{ github.run_number }}\"/" android/app/build.gradle
+          sed -i "s/versionCode [0-9]*/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"6.${{ github.run_number }}\"/" android/app/build.gradle
       - name: Sync web app
         run: npx cap sync android
       - name: Use fixed signing key (so updates install over the old version)
@@ -41,8 +43,8 @@ jobs:
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v5.${{ github.run_number }}
-          name: לומדת למבחן ${{ github.run_number }}
+          tag_name: v6.${{ github.run_number }}
+          name: לומדת למבחן 6.${{ github.run_number }}
           body: "להתקנה באנדרואיד: מורידים את lomedet.apk ופותחים אותו בטלפון."
           files: lomedet.apk
           make_latest: true
@@ -52,6 +54,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Build app from questions/ and src/
+        run: python3 tools/build.py 6.${{ github.run_number }}
       - name: Deploy www to gh-pages
         run: |
           cd www && touch .nojekyll
